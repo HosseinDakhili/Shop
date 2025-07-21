@@ -1,13 +1,15 @@
-import React from 'react'
-import { BrowserRouter, RouterProvider } from 'react-router-dom'
-import  router from './Router'
-import {  router} from 'react-router-dom'
-import { Toaster } from 'react-hot-toast'
+import React from "react";
+import { RouterProvider } from "react-router-dom";
+import router from "./Routes/index.jsx";
+import { Toaster } from "react-hot-toast";
+import { CssBaseline } from "@mui/material";
+
 export default function App() {
   return (
     <>
-    <RouterProvider router={router} /> 
-       <Toaster />
+      <CssBaseline />
+      <RouterProvider router={router} />
+      <Toaster />
     </>
-  )
+  );
 }
