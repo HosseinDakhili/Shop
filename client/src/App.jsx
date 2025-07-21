@@ -1,12 +1,13 @@
 import React from 'react'
-import { BrowserRouter } from 'react-router-dom'
-import route from './Router'
+import { BrowserRouter, RouterProvider } from 'react-router-dom'
+import  router from './Router'
 import {  router} from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
 export default function App() {
   return (
     <>
-     <BrowserRouter route={route}/>
-       
+    <RouterProvider router={router} /> 
+       <Toaster />
     </>
   )
 }
