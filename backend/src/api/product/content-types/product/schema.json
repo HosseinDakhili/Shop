@@ -14,36 +14,28 @@
     "name": {
       "type": "string"
     },
-    "description": {
-      "type": "text"
-    },
     "price": {
-      "type": "integer"
-    },
-    "quantity": {
       "type": "integer"
     },
     "discount": {
       "type": "integer",
       "default": 0,
       "min": 0,
-      "max": 95
+      "max": 99
     },
     "img": {
       "type": "media",
       "multiple": true,
       "allowedTypes": [
-        "images",
         "files",
-        "videos",
-        "audios"
+        "images"
       ]
     },
     "categories": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::category.category",
-      "mappedBy": "products"
+      "inversedBy": "products"
     }
   }
 }

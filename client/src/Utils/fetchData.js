@@ -4,7 +4,7 @@ const fetchData=async(url,option={})=>{
         const data=await res.json()
         return data
     } catch (error) {
-        return {success:false,message:error.message}
+        console.log(error)
     }
 }
-export default fetchData
+export default fetchData 
