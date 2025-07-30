@@ -13,7 +13,7 @@ export default function CheapestCard({
   id,
 }) {
   const navigate = useNavigate();
-    console.log(import.meta.env.VITE_BASE_FILE + img);
+    // console.log(import.meta.env.VITE_BASE_FILE + img);
   return (
     <Box
       width={"100%"}

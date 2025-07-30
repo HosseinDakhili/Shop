@@ -18,7 +18,7 @@ export default function CheapestProducts() {
       const response = await fetchData(
         "products?populate=*&sort=price&pagination[limit]=6"
       );
-      console.log(response.data);
+      // console.log(response.data);
       setProduct(response.data);
     })();
   }, []);
