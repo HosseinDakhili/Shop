@@ -1,8 +1,31 @@
 import { Box, Button, TextField, Typography } from '@mui/material'
 import React from 'react'
+import useFormFields from '../../../Hooks/useFormFields';
+import fetchData from '../../../Utils/fetchData';
+import notify from '../../../Utils/Notify';
 
-export default function Register() {
+export default function Register({handlePageType}) {
   const [fields, handleChange] = useFormFields({ username: "", email: "",password:'' });
+
+
+   const handleSubmit = async(e) => {
+    e.preventDefault();
+    const response = await fetchData('auth/local/register',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+      },
+      body:
+        JSON.stringify(fields)
+      
+    })
+    if(response.jwt){
+      notify('success','sign up successfully')
+      handlePageType()
+    }else{
+      notify('error',response.error?.message)
+    }
+  };
   return (
    <Box
     component={"form"}
@@ -21,14 +44,14 @@ export default function Register() {
     }}
   >
     <Typography variant="h5" fontWeight="700" textAlign="center" mb={2}>
-      Login Form
+      Welcome to my Website
     </Typography>
 
     <TextField
       name="username"
       label="username"
       variant="filled"
-      value={fields?.identifier}
+      value={fields?.username}
       onChange={handleChange}
       required
       fullWidth
@@ -39,7 +62,7 @@ export default function Register() {
       label="Email"
       type="email"
       variant="filled"
-      value={fields?.identifier}
+      value={fields?.email}
       onChange={handleChange}
       required
       fullWidth
@@ -65,17 +88,17 @@ export default function Register() {
       size="large"
       sx={{ mt: 1 }}
     >
-      Login
+      Sign up
     </Button>
 
     <Typography variant="body2" textAlign="center" mt={2}>
-      Don&apos;t have an account?{" "}
+      Don&apos;t Already have an account?{" "}
       <Button
         variant="text"
         onClick={() => handlePageType("register")}
         sx={{ textTransform: "none" }}
       >
-        Register
+        Login
       </Button>
     </Typography>
   </Box>
