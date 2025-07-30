@@ -32,10 +32,9 @@ export default function Categories() {
         sm: "repeat(3, 1fr)",
         md: "repeat(4, 1fr)",
       },
-      gap: { xs: 2, md: 3 }, // فاصله بهتر در سایزهای مختلف
+      gap: { xs: 2, md: 3 }, 
       alignItems: "stretch",
 
-      // افکت حرفه‌ای روی تمام آیتم‌ها داخل گرید
       "& > *": {
         backgroundColor: "#fff",
         borderRadius: 2,
