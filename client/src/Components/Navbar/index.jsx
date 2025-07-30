@@ -11,13 +11,14 @@ import {
 } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { logout } from "../../Store/Slices/AuthSlice";
 
 export default function Navbar() {
   const cartLength = useSelector((state) => state.cart.items)?.length;
   const { token } = useSelector((state) => state.auth);
-
+  const dispatch = useDispatch();
   return (
     <AppBar position="static" color="default" elevation={3}>
       <Toolbar sx={{ justifyContent: "space-between", flexWrap: "wrap" }}>
@@ -70,6 +71,7 @@ export default function Navbar() {
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
+          <Button variant="content" sx={{backgroundColor:'red',color:'white'}} onClick={()=>dispatch(logout())}>Logout</Button>
         </Stack>
       </Toolbar>
     </AppBar>
