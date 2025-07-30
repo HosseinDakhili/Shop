@@ -31,7 +31,7 @@ export default function Navbar() {
           </Button>
           <Button
             component={Link}
-            to="/products"
+            to="/products/all/all-categories"
             color="primary"
             variant="text"
           >
