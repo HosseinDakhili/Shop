@@ -21,6 +21,7 @@ export default function Login({ handlePageType }) {
         JSON.stringify(fields)
       
     })
+    console.log(response)
     if(response.jwt){
       notify('success','login successfully')
       dispatch(login({jwt:response?.jwt,user:response?.user}))
