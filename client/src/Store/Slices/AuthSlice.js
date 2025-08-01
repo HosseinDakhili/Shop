@@ -13,7 +13,7 @@ const authSlice = createSlice({
             state.user = action.payload.user
         },
         logout:(state) =>{
-            state.token = null
+            state.jwt = null
             state.user = null
         }
     }
