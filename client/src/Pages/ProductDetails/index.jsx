@@ -4,14 +4,15 @@ import fetchData from "../../Utils/fetchData";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import SkeletonDetails from "./SkeletonDetails";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem, removeItems } from "../../Store/Slices/CartSlice";
+import { add, remove } from "../../Store/Slices/CartSlice";
+
 
 export default function ProductDetails() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [currentImg, setCurrentImg] = useState(0);
   const cartQuantity =
-    useSelector((state) => state.cart.items).find((items) => items.id === id)
+    useSelector((state) => state.cart.items).find((items) => items.id == id)
       ?.cartQuantity || 0;
   const dispatch = useDispatch();
   useEffect(() => {
@@ -87,7 +88,7 @@ export default function ProductDetails() {
       {product?.name}
     </Typography>
     <Typography variant="subtitle1" color="text.secondary" mb={1}>
-      {product?.categories?.name}
+      {product?.categories?.[0]?.name}
     </Typography>
     <Typography variant="h6" color="primary" mb={1}>
       ${product?.price}
@@ -102,7 +103,7 @@ export default function ProductDetails() {
     <Stack direction="row" spacing={2} alignItems="center">
       {cartQuantity === 0 ? (
         <Button
-          onClick={() => dispatch(addItem(product))}
+          onClick={() => dispatch(add(product))}
           variant="contained"
           color="primary"
           sx={{ textTransform: "none", borderRadius: 2 }}
@@ -112,18 +113,20 @@ export default function ProductDetails() {
       ) : (
         <>
           <Button
-            onClick={() => dispatch(removeItems(product?.id))}
+            onClick={() => dispatch(remove(product?.id))}
             variant="outlined"
             color="primary"
             sx={{ minWidth: 40, borderRadius: 2 }}
           >
             -
           </Button>
+          <Typography component={'span'}>{cartQuantity}</Typography>
           <Button
-            onClick={() => dispatch(addItem(product))}
+            onClick={() => dispatch(add(product))}
             variant="outlined"
             color="primary"
             sx={{ minWidth: 40, borderRadius: 2 }}
+            disabled={cartQuantity>= product?.quantity}
           >
             +
           </Button>
