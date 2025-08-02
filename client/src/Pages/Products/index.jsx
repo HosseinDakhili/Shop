@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import fetchData from "../../Utils/fetchData";
+import ProductSkeleton from "./ProductSkeleton";
 import {
   Box,
   FormControl,
@@ -10,6 +11,7 @@ import {
   Slider,
   Stack,
 } from "@mui/material";
+import ProductCard from "./ProductCard";
 
 function valuetext(value) {
   return `$${value}`;
@@ -37,65 +39,82 @@ export default function Products() {
       const response = await fetchData(
         `products?${
           categoryId == "all"
-            ? `sort=${sort}&filters[price][$gte]=${price[0]}&filters[price][$lte]=${price[1]}`
-            : `filters[categories][id][$eq]=${categoryId}&sort=${sort}&filters[price][$gte]=${price[0]}&filters[price][$lte]=${price[1]}`
+            ? `populate=*&sort=${sort}&filters[price][$gte]=${price[0]}&filters[price][$lte]=${price[1]}`
+            : `populate=*&filters[categories][id][$eq]=${categoryId}&sort=${sort}&filters[price][$gte]=${price[0]}&filters[price][$lte]=${price[1]}`
         }`
       );
       setProduct(response?.data);
     })();
   }, [categoryId, sort, price]);
 
-  return (
-  <Box
-    sx={{
-      display: "flex",
-      flexDirection: { xs: "column", sm: "row" },
-      gap: 4,
-      alignItems: "center",
-      justifyContent: "space-between",
-      bgcolor: "#fff",
-      p: 3,
-      borderRadius: 3,
-      boxShadow: "0 6px 18px rgba(0,0,0,0.08)",
-      mt: 4,
-    }}
-  >
-    <FormControl sx={{ minWidth: 180 }} size="medium">
-      <InputLabel id="demo-simple-select-label">Sort</InputLabel>
-      <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={sort}
-        label="Sort"
-        onChange={handleSort}
-      >
-        <MenuItem value={"name"}>A-Z</MenuItem>
-        <MenuItem value={"name:desc"}>Z-A</MenuItem>
-        <MenuItem value={"price"}>Price low to high</MenuItem>
-        <MenuItem value={"price:desc"}>Price high to low</MenuItem>
-        <MenuItem value={"createdAt:desc"}>Newest</MenuItem>
-        <MenuItem value={"createdAt"}>Oldest</MenuItem>
-        <MenuItem value={"quantity"}>Quantity</MenuItem>
-        <MenuItem value={"discount:desc"}>Discount</MenuItem>
-      </Select>
-    </FormControl>
-
-    <Box sx={{ width: { xs: "100%", sm: 300 } }}>
-      <Slider
-        getAriaLabel={() => "Price Range"}
-        value={price}
-        min={0}
-        max={1000}
-        marks={marks}
-        onChange={handlePriceChange}
-        valueLabelDisplay="auto"
-        getAriaValueText={valuetext}
-        sx={{
-          color: "primary.main",
-        }}
+  const loadingArrayComponent = new Array(12).fill(<ProductSkeleton />);
+  const items = product?.map((e) => {
+    return (
+      <ProductCard
+        key={e?.id}
+        id={e?.id}
+        name={e?.name}
+        price={e?.price}
+        discount={e?.discount}
+        quantity={e?.quantity}
+       img={e?.img?.[0]?.formats?.thumbnail?.url}
       />
+    );
+  });
+  return (
+   <Box sx={{ p: 2 }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: { xs: "column", sm: "row" },
+        gap: 2,
+        mb: 3,
+        alignItems: "center",
+      }}
+    >
+      <FormControl sx={{ minWidth: 150 }}>
+        <InputLabel id="sort-label">Sort</InputLabel>
+        <Select
+          labelId="sort-label"
+          value={sort}
+          label="Sort"
+          onChange={handleSort}
+        >
+          <MenuItem value="name">A-Z</MenuItem>
+          <MenuItem value="name:desc">Z-A</MenuItem>
+          <MenuItem value="price">Price low to high</MenuItem>
+          <MenuItem value="price:desc">Price high to low</MenuItem>
+          <MenuItem value="createdAt:desc">Newest</MenuItem>
+          <MenuItem value="createdAt">Oldest</MenuItem>
+          <MenuItem value="quantity">Quantity</MenuItem>
+          <MenuItem value="discount:desc">Discount</MenuItem>
+        </Select>
+      </FormControl>
+      <Box sx={{ width: { xs: "100%", sm: 300 } }}>
+        <Slider
+          value={price}
+          min={0}
+          max={1000}
+          marks={marks}
+          onChange={handlePriceChange}
+          valueLabelDisplay="auto"
+          getAriaValueText={valuetext}
+        />
+      </Box>
+    </Box>
+    <Box
+      sx={{
+        display: "grid",
+        gridTemplateColumns: {
+          xs: "repeat(2, 1fr)",
+          sm: "repeat(3, 1fr)",
+          md: "repeat(4, 1fr)",
+        },
+        gap: 2,
+      }}
+    >
+      {product ? items : loadingArrayComponent}
     </Box>
   </Box>
-);
-
+  );
 }

@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardActions,
   CardContent,
@@ -32,6 +33,7 @@ export default function ProductCard({
       }}
     >
       <CardMedia
+      component={'img'}
         sx={{
           height: 210,
           width: "100%",
@@ -41,7 +43,7 @@ export default function ProductCard({
             filter: "brightness(0.9)",
           },
         }}
-        image={import.meta.env.VITE_BASE_FILE + img}
+        src={import.meta.env.VITE_BASE_FILE+img}
         title={name}
       />
       <CardContent>
@@ -57,7 +59,7 @@ export default function ProductCard({
       <CardActions sx={{ px: 2, pb: 2 }}>
         <Button
           onClick={() =>
-            navigate(`product=details/${id}/${name.replaceAll(" ", "-")}`)
+            navigate(`product-details/${id}/${name.replaceAll(" ", "-")}`)
           }
           size="small"
           variant="contained"
