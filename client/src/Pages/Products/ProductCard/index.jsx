@@ -59,7 +59,7 @@ export default function ProductCard({
       <CardActions sx={{ px: 2, pb: 2 }}>
         <Button
           onClick={() =>
-            navigate(`product-details/${id}/${name.replaceAll(" ", "-")}`)
+            navigate(`/product-details/${id}/${name.replaceAll(" ", "-")}`)
           }
           size="small"
           variant="contained"
